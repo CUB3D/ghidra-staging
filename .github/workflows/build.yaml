@@ -1,3 +1,4 @@
+/workflows/build.yaml
 on:
   push:
     branches: [ master ]
@@ -29,6 +30,15 @@ jobs:
         run: |
            cd ghidra
            for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
+             if [ "$(basename "$f")" = "7409-Update-GUIDs.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "7930-Add-support-for-NEC-uPD78-microcontrollers.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "6606-AArch32-vmov-had-incorrect-vmask-missing-positi.patch" ]; then
+               continue
+             fi
              patch -p1 < "$f"
            done
       -
@@ -39,7 +49,7 @@ jobs:
           distribution: "temurin"
       -
         name: "Build ghidra"
-        run: cd ghidra && gradle buildGhidra 
+        run: cd ghidra && gradle buildGhidra -x ip
       -
         name: "Upload artifacts"
         uses: actions/upload-artifact@v7
@@ -47,4 +57,4 @@ jobs:
           name: Release
           path: "build/dist/*.zip"
           if-no-files-found: "error"
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() }}   
