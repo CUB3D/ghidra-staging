@@ -27,9 +27,10 @@ jobs:
         run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
       -
         name: "Apply patches"
+        # Patches removed due to build failures
         run: |
            cd ghidra
-           for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
+           for f in ../ghidra-staging/*.patch; do
              if [ "$(basename "$f")" = "7409-Update-GUIDs.patch" ]; then
                continue
              fi
@@ -37,6 +38,9 @@ jobs:
                continue
              fi
              if [ "$(basename "$f")" = "6606-AArch32-vmov-had-incorrect-vmask-missing-positi.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
                continue
              fi
              patch -p1 < "$f"
