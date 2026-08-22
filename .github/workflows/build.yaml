@@ -1,4 +1,3 @@
-/workflows/build.yaml
 on:
   push:
     branches: [ master ]
