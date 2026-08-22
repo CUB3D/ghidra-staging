@@ -7,6 +7,45 @@ on:
 
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: "write"
+    strategy:
+      fail-fast: false
+    steps:
+      -
+        name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      -
+        name: "Setup JDK"
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "temurin"
+      -
+        name: "Clone ghidra"
+        run: git clone https://github.com/nationalsecurityagency/ghidra 
+      -
+        name: "Pull deps"
+        run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
+      -
+        name: "Apply patches"
+        run: cd ghidra && patch -p1 <../ghidra-staging/*.patch
+      -
+        name: "Build ghidra"
+        run: cd ghidra && gradle buildGhidra 
+      -
+        name: "Upload artifacts"
+        uses: actions/upload-artifact@v7
+        with:
+          name: Release
+          path: "build/dist/*.zip"
+          if-no-files-found: "error"
+        if: ${{ !cancelled() }}
   sync_with_upstream:
     runs-on: ubuntu-latest
     name: Sync main with upstream latest
