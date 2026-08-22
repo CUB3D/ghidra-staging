@@ -1,9 +1,7 @@
 on:
-  schedule:
-    - cron:  '0 7 * * 1,4'
-    # scheduled at 07:00 every Monday and Thursday
-
-  workflow_dispatch:  # click the button on Github repo!
+  push:
+    branches: [ master ]
+  workflow_dispatch:
 
 
 jobs:
@@ -21,12 +19,6 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
       -
-        name: "Setup JDK"
-        uses: actions/setup-java@v5
-        with:
-          java-version: "25"
-          distribution: "temurin"
-      -
         name: "Clone ghidra"
         run: git clone https://github.com/nationalsecurityagency/ghidra 
       -
@@ -34,7 +26,17 @@ jobs:
         run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
       -
         name: "Apply patches"
-        run: cd ghidra && patch -p1 < /home/runner/work/ghidra-staging/ghidra-staging/*.patch
+        run: |
+           cd ghidra
+           for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
+             patch -p1 < "$f"
+           done
+      -
+        name: "Setup JDK"
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "temurin"
       -
         name: "Build ghidra"
         run: cd ghidra && gradle buildGhidra 
@@ -46,32 +48,3 @@ jobs:
           path: "build/dist/*.zip"
           if-no-files-found: "error"
         if: ${{ !cancelled() }}
-  sync_with_upstream:
-    runs-on: ubuntu-latest
-    name: Sync main with upstream latest
-
-    steps:
-    # Step 1: run a standard checkout action, provided by github
-    - name: Checkout master
-      uses: actions/checkout@v2
-      with:
-        ref: master
-
-    # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
-    - name: Pull (Fast-Forward) upstream changes
-      id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
-      with:
-        upstream_repository: jobermayr/ghidra-staging
-        upstream_branch: master
-        target_branch: master
-        git_pull_args: --ff-only
-
-    # Step 3: Display a message if 'sync' step had new commits (simple test)
-    #- name: Check for new commits
-    #  if: steps.sync.outputs.has_new_commits
-    #  run: echo "There were new commits."
-
-    # Step 4: Print a helpful timestamp for your records (not required, just nice)
-    #- name: Timestamp
-    #  run: date
