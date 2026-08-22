@@ -1,0 +1,98 @@
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: "write"
+    strategy:
+      fail-fast: false
+    steps:
+      -
+        name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      -
+        name: "Clone ghidra"
+        run: git clone https://github.com/nationalsecurityagency/ghidra 
+      -
+        name: "Pull deps"
+        run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
+      -
+        name: "Apply patches"
+        continue-on-error: true
+        # Patches removed due to build failures
+        run: |
+           cd ghidra
+           for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
+             if [ "$(basename "$f")" = "7409-Update-GUIDs.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "7930-Add-support-for-NEC-uPD78-microcontrollers.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "6606-AArch32-vmov-had-incorrect-vmask-missing-positi.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
+               continue
+             fi
+             patch -p1 < "$f"
+           done
+      -
+        name: "Setup JDK"
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "temurin"
+      -
+        name: "Build ghidra"
+        run: cd ghidra && gradle -x ip buildGhidra
+      -
+        name: "Remove zips"
+        continue-on-error: true
+        run: cd ghidra && rm build/dist/ghidra_*_DEV_*_*.zip
+      -
+        name: "Upload artifacts"
+        uses: actions/upload-artifact@v7
+        with:
+          name: Release
+          path: "ghidra/build/dist/ghidra_*.zip"
+          if-no-files-found: "error"
+        if: ${{ !cancelled() }}   
+
+  release:
+    needs:
+      - "build"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "write"
+    steps:
+      -
+        name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      -
+        name: "Download artifacts"
+        uses: actions/download-artifact@v5
+        with:
+          path: "ext_out/"
+          merge-multiple: true
+      -
+        name: "GitHub release"
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          artifacts: "ext_out/*"
+          draft: false
+          generateReleaseNotes: true
+          makeLatest: true
+          commit: master
+          tag: "${{ github.run_id }}"
