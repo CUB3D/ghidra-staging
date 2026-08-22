@@ -34,7 +34,7 @@ jobs:
         run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
       -
         name: "Apply patches"
-        run: cd ghidra && patch -p1 <../ghidra-staging/*.patch
+        run: cd ghidra && patch -p1 < /home/runner/work/ghidra-staging/ghidra-staging/*.patch
       -
         name: "Build ghidra"
         run: cd ghidra && gradle buildGhidra 
@@ -65,6 +65,7 @@ jobs:
         upstream_repository: jobermayr/ghidra-staging
         upstream_branch: master
         target_branch: master
+        git_pull_args: --ff-only
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
     #- name: Check for new commits
