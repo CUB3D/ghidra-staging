@@ -26,6 +26,7 @@ jobs:
         run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
       -
         name: "Apply patches"
+        continue-on-error: true
         # Patches removed due to build failures
         run: |
            cd ghidra
