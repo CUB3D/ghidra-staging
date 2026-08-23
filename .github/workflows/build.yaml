@@ -95,4 +95,4 @@ jobs:
           generateReleaseNotes: true
           makeLatest: true
           commit: master
-          tag: "${{ GITHUB_RUN_ID }}"
+          tag: "${{ github.run_id }}"
