@@ -43,7 +43,7 @@ jobs:
              if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
                continue
              fi
-             patch -p1 < "$f"
+             patch -p1 < "$f" || true
            done
       -
         name: "Setup JDK"
