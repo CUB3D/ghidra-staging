@@ -53,12 +53,15 @@ jobs:
           distribution: "temurin"
       -
         name: "Build ghidra"
-        run: cd ghidra && gradle buildGhidra -x ip
+        run: cd ghidra && gradle -x ip buildGhidra
+      -
+        name: "Remove zips"
+        run: cd ghidra && rm build/dist/ghidra_*_DEV_*_*.zip
       -
         name: "Upload artifacts"
         uses: actions/upload-artifact@v7
         with:
           name: Release
-          path: "build/dist/*.zip"
+          path: "ghidra/build/dist/ghidra_*.zip"
           if-no-files-found: "error"
         if: ${{ !cancelled() }}   
