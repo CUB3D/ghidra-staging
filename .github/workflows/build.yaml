@@ -88,7 +88,11 @@ jobs:
           merge-multiple: true
       -
         name: "GitHub release"
-        uses: ncipollo/release-action@v1.12.0
+        uses: ncipollo/release-action@v1.21
         with:
           artifacts: "ext_out/*"
           draft: false
+          generateReleaseNotes: true
+          makeLatest: true
+          commit: master
+          tag: "${{ GITHUB_RUN_ID }}"
