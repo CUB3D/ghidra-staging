@@ -56,6 +56,7 @@ jobs:
         run: cd ghidra && gradle -x ip buildGhidra
       -
         name: "Remove zips"
+        continue-on-error: true
         run: cd ghidra && rm build/dist/ghidra_*_DEV_*_*.zip
       -
         name: "Upload artifacts"
