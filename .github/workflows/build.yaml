@@ -29,7 +29,9 @@ jobs:
       -
         name: "Apply patches"
         continue-on-error: true
-        # Patches removed due to build failures
+        # - Patches removed due to build failures: 7409, 7930, 6606, 8957
+        # - AI slop: 5333
+        # - Breaks the decompiler reliably: 7502
         run: |
            cd ghidra
            for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
@@ -45,6 +47,15 @@ jobs:
              if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
                continue
              fi
+
+             if [ "$(basename "$f")" = "5333-Add-GhidraChatGPT.patch" ]; then
+               continue
+             fi
+
+             if [ "$(basename "$f")" = "7502-Resolve-branches-injected-by-callfixups-and-oth.patch" ]; then
+               continue
+             fi
+
              patch -p1 < "$f" || true
            done
       -
