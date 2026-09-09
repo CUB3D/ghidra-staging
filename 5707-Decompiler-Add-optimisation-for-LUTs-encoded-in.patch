@@ -34,7 +34,7 @@ index f03ded7e60..6f01bb8829 100644
  	actprop->addRule( new RuleSubvarSubpiece("subvar") );
  	actprop->addRule( new RuleSplitFlow("subvar") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index c7a80bcc33..1c668c8c4d 100644
+index 1cfd5b79e1..3f3f30de20 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -10995,6 +10995,125 @@ int4 RuleFloatSignCleanup::applyOp(PcodeOp *op,Funcdata &data)
@@ -164,7 +164,7 @@ index c7a80bcc33..1c668c8c4d 100644
  }
  
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
-index c1b9b12a22..0029cc8e57 100644
+index d57d882c52..ee32d8420e 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 @@ -1641,5 +1641,16 @@ public:

@@ -93,7 +93,7 @@ index 74d70c6984..0dd9348cf7 100644
    opSetInput(op,newvn,1);
    opSetInput(op,invn,0);
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index ee07dbd4dc..60615aeb52 100644
+index 7476ed7388..2ef8f64191 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -47,6 +47,7 @@ class AddTreeState {
@@ -175,7 +175,7 @@ index ee07dbd4dc..60615aeb52 100644
  
  class RuleEarlyRemoval : public Rule {
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index c25beadc7e..95ed45486c 100644
+index e43e8c6bdf..18410273b2 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -6056,6 +6056,7 @@ void AddTreeState::clear(void)

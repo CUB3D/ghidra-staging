@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Spencer Little <slittle57@gmail.com>
 Date: Wed, 19 Aug 2026 13:46:02 -0700
-Subject: [PATCH] 9574: 9444: refuse comments at unbacked addressess
+Subject: [PATCH] 9574: Refuse comments at unbacked addressess
 
 9444: refuse comment at unbacked memory address
 
@@ -39,7 +39,7 @@ index 721a5808e8..b125f95243 100644
  	public String getExecutableFormat() {
  		return "Trace";
 diff --git a/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/AbstractLibrarySupportLoader.java b/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/AbstractLibrarySupportLoader.java
-index 7fc793b184..6bb76ff529 100644
+index a023ce3b60..5e108c947c 100644
 --- a/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/AbstractLibrarySupportLoader.java
 +++ b/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/AbstractLibrarySupportLoader.java
 @@ -37,6 +37,7 @@ import ghidra.plugin.importer.ImporterPlugin;
@@ -50,16 +50,16 @@ index 7fc793b184..6bb76ff529 100644
  import ghidra.program.model.symbol.ExternalManager;
  import ghidra.util.StringUtilities;
  import ghidra.util.exception.CancelledException;
-@@ -928,12 +929,14 @@ public abstract class AbstractLibrarySupportLoader extends AbstractProgramLoader
- 		Program program = createProgram(settings);
+@@ -931,12 +932,14 @@ public abstract class AbstractLibrarySupportLoader extends AbstractProgramLoader
+ 		Program program = loader.createProgram(settings);
  
  		int transactionID = program.startTransaction("Loading");
 +		program.setLoadState(LoadState.LOADING);
  		boolean success = false;
  		try {
  			log.appendMsg("Loading %s...".formatted(settings.provider().getFSRL()));
- 			load(program, settings);
- 			createDefaultMemoryBlocks(program, settings);
+ 			loader.load(program, settings);
+ 			loader.createDefaultMemoryBlocks(program, settings);
  			libraryNameList.addAll(getLibraryNames(settings.provider(), program));
 +			program.setLoadState(LoadState.LOADED);
  			success = true;

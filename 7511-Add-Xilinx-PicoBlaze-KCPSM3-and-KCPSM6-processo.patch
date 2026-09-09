@@ -3,13 +3,7 @@ From: CUB3D <callumthom11@gmail.com>
 Date: Sat, 15 Feb 2025 21:21:36 +0000
 Subject: [PATCH] 7511: Add Xilinx PicoBlaze KCPSM3 and KCPSM6 processors
 
-Add PicoBlaze
-
-Add Picoblaze6
-
-Update PicoBlaze with fixes
-
-Replace odd_parity with popcount
+Add PicoBlaze KCPSM3 and KCPSM6 processors
 ---
  Ghidra/Processors/PicoBlaze/Module.manifest   |   0
  Ghidra/Processors/PicoBlaze/README.md         |   1 +

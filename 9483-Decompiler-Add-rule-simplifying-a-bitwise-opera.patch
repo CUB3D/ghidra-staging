@@ -28,7 +28,7 @@ index 97d0c8b58d..eaedc29b78 100644
  	actprop->addRule( new RuleSubvarSubpiece("subvar") );
  	actprop->addRule( new RuleSplitFlow("subvar") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 2cef23e3b7..f625158745 100644
+index cb92f15df5..cca4a3d9f4 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1730,6 +1730,17 @@ public:
@@ -50,7 +50,7 @@ index 2cef23e3b7..f625158745 100644
    static bool checkAndComparison(Varnode *vn);
    static void modifyAndComparison(Funcdata &data,Varnode *oldVn,Varnode *newVn,Datatype *dt,int4 offset);
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 3ae78e5fa5..0125598007 100644
+index b844c06937..a46c4e2ba0 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -12629,6 +12629,120 @@ int4 RuleSimplifyConstantLUT::applyOp(PcodeOp *op, Funcdata &data)

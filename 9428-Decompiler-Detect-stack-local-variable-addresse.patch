@@ -75,7 +75,7 @@ index 9e6fa07b6c..8f20b8f846 100644
  	{
  	  if (op->getIn(2) != curNode.vn) break;	// Check that stackpointer comes in as inner pointer
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 72e533945d..9f686baa64 100644
+index 83a5fa4556..17d51b2250 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -4259,7 +4259,7 @@ AddrSpace *RuleLoadVarnode::correctSpacebase(Architecture *glb,Varnode *vn,AddrS

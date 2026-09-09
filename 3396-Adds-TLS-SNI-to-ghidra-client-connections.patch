@@ -93,18 +93,18 @@ index 0000000000..901c214924
 +	}
 +}
 diff --git a/Ghidra/Framework/FileSystem/src/main/java/ghidra/framework/client/ServerConnectTask.java b/Ghidra/Framework/FileSystem/src/main/java/ghidra/framework/client/ServerConnectTask.java
-index 87de89dc07..b6363008c9 100644
+index 5db3977684..dd2e91981d 100644
 --- a/Ghidra/Framework/FileSystem/src/main/java/ghidra/framework/client/ServerConnectTask.java
 +++ b/Ghidra/Framework/FileSystem/src/main/java/ghidra/framework/client/ServerConnectTask.java
-@@ -28,7 +28,6 @@ import java.util.HashSet;
- 
+@@ -31,7 +31,6 @@ import java.util.HashSet;
+ import javax.net.ssl.SSLException;
  import javax.net.ssl.SSLHandshakeException;
  import javax.net.ssl.SSLSocket;
 -import javax.rmi.ssl.SslRMIClientSocketFactory;
  import javax.security.auth.Subject;
  import javax.security.auth.callback.Callback;
  import javax.security.auth.callback.PasswordCallback;
-@@ -169,7 +168,7 @@ class ServerConnectTask extends Task {
+@@ -173,7 +172,7 @@ class ServerConnectTask extends Task {
  			monitor.setMessage("Connecting...");
  
  			Registry reg = LocateRegistry.getRegistry(server.getServerName(),
@@ -113,7 +113,7 @@ index 87de89dc07..b6363008c9 100644
  			checkServerBindNames(reg);
  
  			gsh = (GhidraServerHandle) reg.lookup(GhidraServerHandle.BIND_NAME);
-@@ -388,7 +387,7 @@ class ServerConnectTask extends Task {
+@@ -443,7 +442,7 @@ class ServerConnectTask extends Task {
  			throws IOException, CancelledException {
  
  		RMIServerPortFactory portFactory = new RMIServerPortFactory(server.getPortNumber());

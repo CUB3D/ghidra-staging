@@ -823,10 +823,10 @@ index 7dcfb80253..4a971a09ee 100755
  			if (oldfunc == null) {
  				badList.add(newfunc); // Keep track of functions with update info which we couldn't find
 diff --git a/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/elastic/ElasticDatabase.java b/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/elastic/ElasticDatabase.java
-index 3fbcfe89ae..088db9624a 100755
+index 0e1512cab4..8a42509734 100755
 --- a/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/elastic/ElasticDatabase.java
 +++ b/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/elastic/ElasticDatabase.java
-@@ -275,6 +275,7 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -276,6 +276,7 @@ public class ElasticDatabase implements FunctionDatabase {
  			builder.append("\", \"id_signature\": \"");
  			Base64Lite.encodeLongBase64(builder, vecid);
  			builder.append("\", \"flags\": ").append(desc.getFlags());
@@ -834,7 +834,7 @@ index 3fbcfe89ae..088db9624a 100755
  			builder.append(", \"addr\": ").append(desc.getAddress());
  			if (info.trackcallgraph) {
  				List<String> vals = generateChildIds(manager, desc);
-@@ -369,11 +370,12 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -370,11 +371,12 @@ public class ElasticDatabase implements FunctionDatabase {
  	 * most 1 document should be returned
  	 * @param exeId is the document id of the executable to match
  	 * @param functionName is the name of the function to match
@@ -848,7 +848,7 @@ index 3fbcfe89ae..088db9624a 100755
  			throws ElasticException {
  		StringBuilder buffer = new StringBuilder();
  		buffer.append("{ \"_source\": { \"excludes\": [ \"childid\" ] }");
-@@ -385,6 +387,10 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -386,6 +388,10 @@ public class ElasticDatabase implements FunctionDatabase {
  		buffer.append(escape(functionName));
  		buffer.append("\"},");
  		buffer.append("        \"term\": {");
@@ -859,7 +859,7 @@ index 3fbcfe89ae..088db9624a 100755
  		buffer.append("           \"addr\": ").append(address);
  		buffer.append("} },");
  		buffer.append("      \"filter\": {");
-@@ -1067,17 +1073,18 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -1068,17 +1074,18 @@ public class ElasticDatabase implements FunctionDatabase {
  	 * @param manager is the container for the FunctionDescription
  	 * @param exeRecord is the given executable
  	 * @param functionName is the function name
@@ -880,7 +880,7 @@ index 3fbcfe89ae..088db9624a 100755
  		if (doc == null) {
  			return null;
  		}
-@@ -1374,13 +1381,13 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -1375,13 +1382,13 @@ public class ElasticDatabase implements FunctionDatabase {
  		List<FunctionDescription> funclist = new ArrayList<>();
  		queryAllFunc(funclist, erec_db, exeId, dbmanage, 0);
  
@@ -898,7 +898,7 @@ index 3fbcfe89ae..088db9624a 100755
  			badFunctions);
  
  		if (!has_exe_update && updatelist.isEmpty()) {
-@@ -1507,10 +1514,11 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -1508,10 +1515,11 @@ public class ElasticDatabase implements FunctionDatabase {
  		RowKey rowid = RowKeyElastic.parseFunctionId(hit.get("_id").getAsString());
  		JsonObject source = (JsonObject) hit.get("_source");
  		String func_name = source.get("name_func").getAsString();
@@ -911,7 +911,7 @@ index 3fbcfe89ae..088db9624a 100755
  		manager.setFunctionDescriptionId(fres, rowid);
  		manager.setFunctionDescriptionFlags(fres, flags);
  		manager.setSignatureId(fres, id_sig);
-@@ -2034,6 +2042,9 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -2035,6 +2043,9 @@ public class ElasticDatabase implements FunctionDatabase {
  		builder.append("      \"flags\": { ");
  		builder.append("        \"type\": \"integer\", ");
  		builder.append("        \"index\": false }, ");
@@ -921,7 +921,7 @@ index 3fbcfe89ae..088db9624a 100755
  		builder.append("      \"addr\": { ");
  		builder.append("        \"type\": \"long\", ");
  		builder.append("        \"doc_values\": false }, ");
-@@ -3100,7 +3111,7 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -3174,7 +3185,7 @@ public class ElasticDatabase implements FunctionDatabase {
  			}
  			else {
  				funcA = queryByNameAddress(resManage, erec, pairInput.funcA.funcName,
@@ -930,7 +930,7 @@ index 3fbcfe89ae..088db9624a 100755
  				if (funcA == null) {
  					missedFunc += 1;
  				}
-@@ -3112,7 +3123,7 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -3186,7 +3197,7 @@ public class ElasticDatabase implements FunctionDatabase {
  			}
  			else {
  				funcB = queryByNameAddress(resManage, erec, pairInput.funcB.funcName,
@@ -939,7 +939,7 @@ index 3fbcfe89ae..088db9624a 100755
  				if (funcB == null) {
  					missedFunc += 1;
  				}
-@@ -3551,7 +3562,7 @@ public class ElasticDatabase implements FunctionDatabase {
+@@ -3625,7 +3636,7 @@ public class ElasticDatabase implements FunctionDatabase {
  		}
  		for (FunctionEntry entry : query.functionKeys) {
  			FunctionDescription func =

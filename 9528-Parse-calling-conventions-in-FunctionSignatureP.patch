@@ -2,8 +2,7 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sylvester Kaczmarek
  <16242628+sylvesterkaczmarek@users.noreply.github.com>
 Date: Thu, 20 Aug 2026 17:06:00 +0100
-Subject: [PATCH] 9528: #8831 Parse calling conventions in
- FunctionSignatureParser
+Subject: [PATCH] 9528: Parse calling conventions in FunctionSignatureParser
 
 Fix parsing of function calling conventions
 ---

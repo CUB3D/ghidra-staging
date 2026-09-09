@@ -103,7 +103,7 @@ index 016fc0dd9a..45d2a53f4d 100644
      const Funcdata *fd = op->getParent()->getFuncdata();
      int4 slot = op->getSlot(vn);
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 49fb966239..c7a80bcc33 100644
+index 6611e1ab3f..1cfd5b79e1 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -3987,7 +3987,7 @@ int4 RuleCarryElim::applyOp(PcodeOp *op,Funcdata &data)

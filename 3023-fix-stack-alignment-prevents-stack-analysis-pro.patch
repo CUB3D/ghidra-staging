@@ -23,7 +23,7 @@ index 26b3908ed6..52dd39e377 100644
  	actprop->addRule( new RulePropagateCopy("analysis") );
  	actprop->addRule( new RuleZextEliminate("analysis") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 6d1a8053f2..49fb966239 100644
+index 0413e131c2..6611e1ab3f 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -4062,6 +4062,95 @@ int4 RuleXorCollapse::applyOp(PcodeOp *op,Funcdata &data)
@@ -123,7 +123,7 @@ index 6d1a8053f2..49fb966239 100644
  /// \brief Collapse constants in an additive or multiplicative expression
  ///
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
-index 783759418d..c1b9b12a22 100644
+index be25fd1b70..d57d882c52 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 @@ -770,6 +770,20 @@ public:

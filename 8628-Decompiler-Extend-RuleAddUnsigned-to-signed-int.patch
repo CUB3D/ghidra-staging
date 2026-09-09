@@ -27,7 +27,7 @@ which seems sensible.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 31d70c14e3..6f22c75cad 100644
+index a1e72fb988..00420075b0 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -8465,7 +8465,7 @@ int4 RuleAddUnsigned::applyOp(PcodeOp *op,Funcdata &data)

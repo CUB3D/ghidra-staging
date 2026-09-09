@@ -57,7 +57,7 @@ index a2a49b22ab..5e7e6b5238 100644
    act->addAction( new ActionFinalStructure("blockrecovery") );
    act->addAction( new ActionPrototypeWarnings("protorecovery") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 1807132b3c..ee07dbd4dc 100644
+index 89651183fc..7476ed7388 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1652,5 +1652,17 @@ public:
@@ -162,7 +162,7 @@ index 1bae3161bb..4b31bbc232 100644
    else {
      push_integer(val,ct->getSize(),false,tag,vn,op,ct->getDisplayFormat());
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index c3f833ec16..c25beadc7e 100644
+index a8db5b74fd..e43e8c6bdf 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -11331,4 +11331,379 @@ int4 RuleExpandLoad::applyOp(PcodeOp *op,Funcdata &data)

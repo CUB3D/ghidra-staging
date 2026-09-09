@@ -5054,7 +5054,7 @@ index 256b4a7e02..e32e8fbc27 100644
  	 * @param libraryFile library file
  	 * @return true if exports file corresponds to library file
 diff --git a/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/NeLoader.java b/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/NeLoader.java
-index be7e2034bb..4fe967e474 100644
+index 8ca872f2dd..1dd4c4bfff 100644
 --- a/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/NeLoader.java
 +++ b/Ghidra/Features/Base/src/main/java/ghidra/app/util/opinion/NeLoader.java
 @@ -434,6 +434,7 @@ public class NeLoader extends AbstractOrdinalSupportLoader {

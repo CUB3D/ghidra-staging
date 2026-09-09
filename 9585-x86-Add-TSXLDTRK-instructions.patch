@@ -5,45 +5,26 @@ Subject: [PATCH] 9585: x86: Add TSXLDTRK instructions
 
 Add tsxldtrk instructions
 ---
- Ghidra/Processors/x86/certification.manifest       | 1 +
- Ghidra/Processors/x86/data/languages/tsxldtrk.sinc | 5 +++++
- Ghidra/Processors/x86/data/languages/x86.slaspec   | 1 +
- 3 files changed, 7 insertions(+)
- create mode 100644 Ghidra/Processors/x86/data/languages/tsxldtrk.sinc
+ Ghidra/Processors/x86/data/languages/ia.sinc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Ghidra/Processors/x86/certification.manifest b/Ghidra/Processors/x86/certification.manifest
-index ef225e7095..efb803ee32 100644
---- a/Ghidra/Processors/x86/certification.manifest
-+++ b/Ghidra/Processors/x86/certification.manifest
-@@ -59,6 +59,7 @@ data/languages/rdrand.sinc||GHIDRA||||END|
- data/languages/sgx.sinc||GHIDRA||||END|
- data/languages/sha.sinc||GHIDRA||||END|
- data/languages/smx.sinc||GHIDRA||||END|
-+data/languages/tsxldtrk.sinc||GHIDRA||||END|
- data/languages/x86-16-real.pspec||GHIDRA||||END|
- data/languages/x86-16.cspec||GHIDRA||||END|
- data/languages/x86-16.gdis||GHIDRA||||END|
-diff --git a/Ghidra/Processors/x86/data/languages/tsxldtrk.sinc b/Ghidra/Processors/x86/data/languages/tsxldtrk.sinc
-new file mode 100644
-index 0000000000..53c53a5c15
---- /dev/null
-+++ b/Ghidra/Processors/x86/data/languages/tsxldtrk.sinc
-@@ -0,0 +1,5 @@
+diff --git a/Ghidra/Processors/x86/data/languages/ia.sinc b/Ghidra/Processors/x86/data/languages/ia.sinc
+index 75241d0391..0dd76f8c87 100644
+--- a/Ghidra/Processors/x86/data/languages/ia.sinc
++++ b/Ghidra/Processors/x86/data/languages/ia.sinc
+@@ -7052,6 +7052,12 @@ define pcodeop xrstors64;
+ :XSAVES64  Mem    is $(LONGMODE_ON) & vexMode=0 & $(REX_W) & byte=0x0F; byte=0xC7; ( mod != 0b11 & reg_opcode=5 ) ... & Mem { tmp:4 = 512; xsaves64(Mem, tmp); }
+ @endif
+ 
 +define pcodeop xsusldtrk;
 +:XSUSLDTRK is vexMode=0 & $(PRE_F2) & byte=0x0F; byte=0x01; byte=0xE8 { xsusldtrk(); }
 +
 +define pcodeop xresldtrk;
 +:XRESLDTRK is vexMode=0 & $(PRE_F2) & byte=0x0F; byte=0x01; byte=0xE9 { xresldtrk(); }
-diff --git a/Ghidra/Processors/x86/data/languages/x86.slaspec b/Ghidra/Processors/x86/data/languages/x86.slaspec
-index b91331511b..5f3d1dbc8f 100644
---- a/Ghidra/Processors/x86/data/languages/x86.slaspec
-+++ b/Ghidra/Processors/x86/data/languages/x86.slaspec
-@@ -22,4 +22,5 @@ with : lockprefx=0 {
- @include "rdrand.sinc"
- @include "xop.sinc"
- @include "rao.sinc"
-+@include "tsxldtrk.sinc"
- }
++
+ define pcodeop xtest;
+ :XTEST          is byte=0x0F; byte=0x01; byte=0xD6       { ZF = xtest(); }
+ 
 -- 
 2.45.1
 

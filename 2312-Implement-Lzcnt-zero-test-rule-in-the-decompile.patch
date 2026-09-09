@@ -25,7 +25,7 @@ index e139128888..26b3908ed6 100644
  	actprop->addRule( new RuleOrCompare("analysis") );
  	actprop->addRule( new RuleSubvarAnd("subvar") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 80c0d8f099..6d1a8053f2 100644
+index dbff0ffb00..0413e131c2 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -17,6 +17,7 @@
@@ -166,7 +166,7 @@ index 80c0d8f099..6d1a8053f2 100644
  /// \brief Convert floating-point \e sign bit manipulation into FLOAT_ABS or FLOAT_NEG
  ///
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
-index 05ca0b4399..783759418d 100644
+index fff63200e9..be25fd1b70 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 @@ -1570,6 +1570,17 @@ public:

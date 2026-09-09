@@ -28,7 +28,7 @@ index c043306dc8..8d925e47e1 100644
      actcleanup->addRule( new RuleExtensionPush("cleanup") );
      actcleanup->addRule( new RulePieceStructure("cleanup") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index efb815fd98..598c08f033 100644
+index 4189883c92..1a56b9fa2d 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1685,6 +1685,17 @@ public:
@@ -50,7 +50,7 @@ index efb815fd98..598c08f033 100644
    static bool checkAndComparison(Varnode *vn);
    static void modifyAndComparison(Funcdata &data,Varnode *oldVn,Varnode *newVn,Datatype *dt,int4 offset);
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 6f22c75cad..1b2b0d959a 100644
+index 00420075b0..51459e30f8 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -17,6 +17,7 @@
