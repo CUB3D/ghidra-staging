@@ -1,7 +1,10 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: qatcod <79017227+qatcod@users.noreply.github.com>
 Date: Thu, 3 Sep 2026 00:30:53 +0500
-Subject: [PATCH] 9573: #6205 Put the MCS-96 division quotient in the low word
+Subject: [PATCH] 9573: [MCS96] Put the MCS-96 division quotient in the low
+ word
+
+#6205 Put the MCS-96 division quotient in the low word
 
 DIV, DIVB, DIVU and DIVUB all wrote the result as
 

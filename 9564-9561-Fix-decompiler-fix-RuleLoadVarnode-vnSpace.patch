@@ -59,7 +59,7 @@ index 369d7f02b3..aea614c4d2 100644
  src/decompile/datatests/noforloop_globcall.xml||GHIDRA||||END|
  src/decompile/datatests/noforloop_iterused.xml||GHIDRA||||END|
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index f625158745..00c866fb26 100644
+index cca4a3d9f4..d060d6ff26 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -854,7 +854,7 @@ public:
@@ -72,7 +72,7 @@ index f625158745..00c866fb26 100644
  public:
    RuleLoadVarnode(const string &g) : Rule(g, 0, "loadvarnode") {}	///< Constructor
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 0125598007..97c147d6bc 100644
+index a46c4e2ba0..e3298e03d7 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -4281,13 +4281,15 @@ AddrSpace *RuleLoadVarnode::correctSpacebase(Architecture *glb,Varnode *vn,AddrS

@@ -18,7 +18,7 @@ bail on getExtraOffset processing unknown ops repeatedly
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 95ed45486c..435760830a 100644
+index 18410273b2..39af3e7bbf 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -8235,7 +8235,8 @@ int8 RulePtrsubUndo::getExtraOffset(PcodeOp *op,int8 &multiplier)

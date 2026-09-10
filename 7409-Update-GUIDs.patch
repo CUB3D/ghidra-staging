@@ -40145,7 +40145,7 @@ index d2fbd0f447..0000000000
 -FFF55FA2-ECE4-4BBA-AA3B-9804AEF47883 IHubSectionFactory
 -FFFCBB7F-15D3-42A2-841E-9D8D32F37DDD D3D9On12CreatorID
 diff --git a/Ghidra/Features/Base/src/main/java/ghidra/app/util/datatype/microsoft/GuidUtil.java b/Ghidra/Features/Base/src/main/java/ghidra/app/util/datatype/microsoft/GuidUtil.java
-index d68f043216..f446433daf 100644
+index be5512724b..e6bd690051 100644
 --- a/Ghidra/Features/Base/src/main/java/ghidra/app/util/datatype/microsoft/GuidUtil.java
 +++ b/Ghidra/Features/Base/src/main/java/ghidra/app/util/datatype/microsoft/GuidUtil.java
 @@ -31,8 +31,6 @@ public class GuidUtil {

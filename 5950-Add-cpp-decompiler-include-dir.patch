@@ -2863,7 +2863,7 @@ diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh b/Ghidra
 similarity index 99%
 rename from Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 rename to Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 0029cc8e57..1807132b3c 100644
+index ee32d8420e..89651183fc 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -25,7 +25,7 @@
@@ -3642,7 +3642,7 @@ index bcfc8c3a7d..03576d5505 100644
  namespace ghidra {
  
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/multiprecision.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/multiprecision.cc
-index 81fd99f38f..fec6749414 100644
+index 924393b015..35defb1a70 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/multiprecision.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/multiprecision.cc
 @@ -13,7 +13,7 @@
@@ -3919,7 +3919,7 @@ index 48dcc8b1b4..7376ace639 100644
  namespace ghidra {
  
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 1c668c8c4d..c3f833ec16 100644
+index 3f3f30de20..a8db5b74fd 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -13,10 +13,10 @@

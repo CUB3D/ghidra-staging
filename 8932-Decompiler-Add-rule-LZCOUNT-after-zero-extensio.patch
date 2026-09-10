@@ -28,7 +28,7 @@ index 8d925e47e1..2196b9b65c 100644
  	actprop->addRule( new RuleZextSless("analysis") );
  	actprop->addRule( new RuleBitUndistribute("analysis") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 598c08f033..3b47521196 100644
+index 1a56b9fa2d..b4c6578c4a 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1594,6 +1594,17 @@ public:
@@ -50,7 +50,7 @@ index 598c08f033..3b47521196 100644
  public:
    RulePopcountBoolXor(const string &g) : Rule( g, 0, "popcountboolxor") {}	///< Constructor
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 1b2b0d959a..31030db421 100644
+index 51459e30f8..9d5a4fcfd3 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -11645,6 +11645,64 @@ int4 RuleThreeWayCompare::applyOp(PcodeOp *op,Funcdata &data)

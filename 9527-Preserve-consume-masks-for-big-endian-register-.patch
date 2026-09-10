@@ -2,8 +2,7 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sylvester Kaczmarek
  <16242628+sylvesterkaczmarek@users.noreply.github.com>
 Date: Thu, 20 Aug 2026 16:16:26 +0100
-Subject: [PATCH] 9527: #9511 Preserve consume masks for big-endian register
- splits
+Subject: [PATCH] 9527: Preserve consume masks for big-endian register splits
 
 Fix big-endian splitflow consume-mask transfer
 ---

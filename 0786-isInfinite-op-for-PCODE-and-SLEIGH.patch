@@ -11,35 +11,48 @@ is positive or negative infinity.  The patch uses the unused
 slot 45.  Users can GT or LT zero to determine positiver or
 negative infinity.
 ---
+ .../ghidra/pcode/opbehavior/OpBehavior.java   |  1 +
  .../pcode/opbehavior/OpBehaviorFactory.java   |  1 +
- .../pcode/opbehavior/OpBehaviorFloatInf.java  | 42 +++++++++++++++++++
- .../ghidra/pcode/floatformat/FloatFormat.java | 12 ++++++
+ .../pcode/opbehavior/OpBehaviorFloatInf.java  | 44 +++++++++++++++++++
+ .../ghidra/pcode/floatformat/FloatFormat.java | 12 +++++
  .../ghidra/pcodeCPort/opcodes/OpCode.java     |  2 +-
  .../slgh_compile/ConsistencyChecker.java      |  3 ++
  .../pcodeCPort/slgh_compile/PcodeCompile.java |  4 ++
  .../program/model/pcode/DynamicHash.java      |  1 +
  .../ghidra/program/model/pcode/PcodeOp.java   |  4 +-
- 8 files changed, 67 insertions(+), 2 deletions(-)
+ 9 files changed, 70 insertions(+), 2 deletions(-)
  create mode 100644 Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFloatInf.java
 
+diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
+index 7bc9e07058..3e8c716d49 100644
+--- a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
++++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
+@@ -75,6 +75,7 @@ public interface OpBehavior {
+ 	OpBehaviorFloatNotEqual FLOAT_NOTEQUAL = OpBehaviorFloatNotEqual.OP_FLOAT_NOTEQUAL;
+ 	OpBehaviorFloatLess FLOAT_LESS = OpBehaviorFloatLess.OP_FLOAT_LESS;
+ 	OpBehaviorFloatLessEqual FLOAT_LESSEQUAL = OpBehaviorFloatLessEqual.OP_FLOAT_LESSEQUAL;
++	OpBehaviorFloatInf FLOAT_INF = OpBehaviorFloatInf.OP_FLOAT_INF;
+ 	OpBehaviorFloatNan FLOAT_NAN = OpBehaviorFloatNan.OP_FLOAT_NAN;
+ 
+ 	OpBehaviorFloatAdd FLOAT_ADD = OpBehaviorFloatAdd.OP_FLOAT_ADD;
 diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
-index 5d638d5d7d..83eb771d1d 100644
+index 7117bf7132..0628e22cab 100644
 --- a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
 +++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
-@@ -82,6 +82,7 @@ public class OpBehaviorFactory {
- 		opBehaviorMap.put(PcodeOp.FLOAT_NOTEQUAL, new OpBehaviorFloatNotEqual());
- 		opBehaviorMap.put(PcodeOp.FLOAT_LESS, new OpBehaviorFloatLess());
- 		opBehaviorMap.put(PcodeOp.FLOAT_LESSEQUAL, new OpBehaviorFloatLessEqual());
-+		opBehaviorMap.put(PcodeOp.FLOAT_INF, new OpBehaviorFloatInf());
- 		opBehaviorMap.put(PcodeOp.FLOAT_NAN, new OpBehaviorFloatNan());
+@@ -78,6 +78,7 @@ public class OpBehaviorFactory {
+ 			case PcodeOp.FLOAT_NOTEQUAL -> OpBehavior.FLOAT_NOTEQUAL;
+ 			case PcodeOp.FLOAT_LESS -> OpBehavior.FLOAT_LESS;
+ 			case PcodeOp.FLOAT_LESSEQUAL -> OpBehavior.FLOAT_LESSEQUAL;
++			case PcodeOp.FLOAT_INF -> OpBehavior.FLOAT_INF;
+ 			case PcodeOp.FLOAT_NAN -> OpBehavior.FLOAT_NAN;
  
- 		opBehaviorMap.put(PcodeOp.FLOAT_ADD, new OpBehaviorFloatAdd());
+ 			case PcodeOp.FLOAT_ADD -> OpBehavior.FLOAT_ADD;
 diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFloatInf.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFloatInf.java
 new file mode 100644
-index 0000000000..1980bd7d8b
+index 0000000000..45baab2197
 --- /dev/null
 +++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFloatInf.java
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,44 @@
 +/* ###
 + * IP: GHIDRA
 + * REVIEWED: YES
@@ -64,10 +77,12 @@ index 0000000000..1980bd7d8b
 +
 +import java.math.BigInteger;
 +
-+public class OpBehaviorFloatInf extends UnaryOpBehavior {
++public enum OpBehaviorFloatInf implements UnaryOpBehavior {
++	OP_FLOAT_INF;
 +
-+	public OpBehaviorFloatInf() {
-+		super(PcodeOp.FLOAT_INF);
++	@Override
++	public int opcode() {
++		return PcodeOp.FLOAT_INF;
 +	}
 +
 +	@Override

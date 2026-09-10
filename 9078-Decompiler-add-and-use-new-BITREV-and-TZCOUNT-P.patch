@@ -35,16 +35,17 @@ Decompiler: add RuleTzcountFromBitrevLzcount
  .../Decompiler/src/decompile/cpp/slghscan.l   |    2 +
  .../Decompiler/src/decompile/cpp/typeop.cc    |   16 +
  .../src/decompile/cpp/unionresolve.cc         |    4 +
- .../pcode/opbehavior/OpBehaviorBitrev.java    |   49 +
- .../pcode/opbehavior/OpBehaviorFactory.java   |    2 +
- .../pcode/opbehavior/OpBehaviorTzcount.java   |   62 +
+ .../ghidra/pcode/opbehavior/OpBehavior.java   |    2 +
+ .../pcode/opbehavior/OpBehaviorBitrev.java    |   51 +
+ .../pcode/opbehavior/OpBehaviorFactory.java   |    3 +
+ .../pcode/opbehavior/OpBehaviorTzcount.java   |   64 +
  .../ghidra/pcodeCPort/opcodes/OpCode.java     |    2 +
  .../pcodeCPort/slgh_compile/PcodeCompile.java |   12 +
  .../program/model/pcode/DynamicHash.java      |    2 +-
  .../ghidra/program/model/pcode/PcodeOp.java   |    8 +-
  .../AARCH64/data/languages/AARCH64base.sinc   |   37 +-
  .../VideoCore/data/languages/vc4.slaspec      |    1 -
- 30 files changed, 1783 insertions(+), 1466 deletions(-)
+ 31 files changed, 1790 insertions(+), 1466 deletions(-)
  create mode 100644 Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorBitrev.java
  create mode 100644 Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorTzcount.java
 
@@ -225,7 +226,7 @@ index ab08c2cf8a..7c812bcb48 100644
    virtual string getScopeDelimiter(void) const=0;			///< Return the character string used to separate scope names
  
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 3b47521196..e1893222f5 100644
+index b4c6578c4a..0cb5ba16a9 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1663,6 +1663,17 @@ public:
@@ -466,7 +467,7 @@ index edb2a435d3..d2a24c023e 100644
 +
  } // End namespace ghidra
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index e82e828ee8..eb845a74fb 100644
+index 3cbb54e305..1ce2211e29 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -12276,6 +12276,26 @@ int4 RuleLzcntZeroTest::applyOp(PcodeOp *op,Funcdata &data)
@@ -4046,12 +4047,25 @@ index 51faa027a4..29d951e01b 100644
        if (meta == TYPE_ARRAY || meta == TYPE_STRUCT || meta == TYPE_UNION || meta == TYPE_CODE || meta == TYPE_FLOAT)
  	score = -5;
        else if (meta == TYPE_PTR || meta == TYPE_BOOL)
+diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
+index 3e8c716d49..55294aad63 100644
+--- a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
++++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehavior.java
+@@ -103,6 +103,8 @@ public interface OpBehavior {
+ 	SpecialOpBehavior ZPULL = SpecialOpBehavior.OP_ZPULL;
+ 	SpecialOpBehavior SPULL = SpecialOpBehavior.OP_SPULL;
+ 
++	OpBehaviorBitrev BITREV = OpBehaviorBitrev.OP_BITREV;
++	OpBehaviorTzcount TZCOUNT = OpBehaviorTzcount.OP_TZCOUNT;
+ 	/** {@return the opcode implemented} */
+ 	int opcode();
+ }
 diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorBitrev.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorBitrev.java
 new file mode 100644
-index 0000000000..83a46dcc24
+index 0000000000..3e3a2084d3
 --- /dev/null
 +++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorBitrev.java
-@@ -0,0 +1,49 @@
+@@ -0,0 +1,51 @@
 +/* ###
 + * IP: GHIDRA
 + *
@@ -4073,10 +4087,12 @@ index 0000000000..83a46dcc24
 +
 +import java.math.BigInteger;
 +
-+public class OpBehaviorBitrev extends UnaryOpBehavior {
++public enum OpBehaviorBitrev implements UnaryOpBehavior {
++	OP_BITREV;
 +
-+	public OpBehaviorBitrev() {
-+		super(PcodeOp.BITREV);
++	@Override
++	public int opcode() {
++		return PcodeOp.BITREV;
 +	}
 +
 +	@Override
@@ -4102,24 +4118,25 @@ index 0000000000..83a46dcc24
 +	}
 +}
 diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
-index 83eb771d1d..e567dc5476 100644
+index 0628e22cab..9283f6c26d 100644
 --- a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
 +++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorFactory.java
-@@ -107,6 +107,8 @@ public class OpBehaviorFactory {
- 		opBehaviorMap.put(PcodeOp.POPCOUNT, new OpBehaviorPopcount());
- 		opBehaviorMap.put(PcodeOp.LZCOUNT, new OpBehaviorLzcount());
- 		opBehaviorMap.put(PcodeOp.SPULL, new SpecialOpBehavior(PcodeOp.SPULL));
-+		opBehaviorMap.put(PcodeOp.BITREV, new OpBehaviorBitrev());
-+		opBehaviorMap.put(PcodeOp.TZCOUNT, new OpBehaviorTzcount());
- 	}
+@@ -104,6 +104,9 @@ public class OpBehaviorFactory {
+ 			case PcodeOp.LZCOUNT -> OpBehavior.LZCOUNT;
+ 			case PcodeOp.SPULL -> OpBehavior.SPULL;
  
- 	private OpBehaviorFactory() {
++			case PcodeOp.BITREV -> OpBehavior.BITREV;
++			case PcodeOp.TZCOUNT -> OpBehavior.TZCOUNT;
++
+ 			default -> null;
+ 		};
+ 	}
 diff --git a/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorTzcount.java b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorTzcount.java
 new file mode 100644
-index 0000000000..7b8d1ef8a5
+index 0000000000..69dbb4353b
 --- /dev/null
 +++ b/Ghidra/Framework/Emulation/src/main/java/ghidra/pcode/opbehavior/OpBehaviorTzcount.java
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,64 @@
 +/* ###
 + * IP: GHIDRA
 + *
@@ -4141,10 +4158,12 @@ index 0000000000..7b8d1ef8a5
 +
 +import ghidra.program.model.pcode.PcodeOp;
 +
-+public class OpBehaviorTzcount extends UnaryOpBehavior {
++public enum OpBehaviorTzcount implements UnaryOpBehavior {
++	OP_TZCOUNT;
 +
-+	public OpBehaviorTzcount() {
-+		super(PcodeOp.TZCOUNT);
++	@Override
++	public int opcode() {
++		return (PcodeOp.TZCOUNT);
 +	}
 +
 +	@Override

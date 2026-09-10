@@ -2,8 +2,7 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sylvester Kaczmarek
  <16242628+sylvesterkaczmarek@users.noreply.github.com>
 Date: Sun, 16 Aug 2026 12:49:05 +0100
-Subject: [PATCH] 9506: #9467 Make unitTestReport fail after aggregate test
- failures
+Subject: [PATCH] 9506: Make unitTestReport fail after aggregate test failures
 
 #9467 Fail unitTestReport after aggregate test failures
 ---

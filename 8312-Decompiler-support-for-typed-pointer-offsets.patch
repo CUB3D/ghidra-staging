@@ -41,7 +41,7 @@ index 661936087d..e4a05edb44 100644
    bool option_NULL;		///< Set to \b true if we should emit NULL keyword
    bool option_inplace_ops;	///< Set to \b true if we should use '+=' '&=' etc.
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index 60615aeb52..efb815fd98 100644
+index 2ef8f64191..4189883c92 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1140,6 +1140,16 @@ public:
@@ -260,7 +260,7 @@ index 4b31bbc232..6a23c7a67c 100644
    return false;
  }
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 435760830a..31d70c14e3 100644
+index 39af3e7bbf..a1e72fb988 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -7856,6 +7856,65 @@ int4 RulePtrArith::applyOp(PcodeOp *op,Funcdata &data)

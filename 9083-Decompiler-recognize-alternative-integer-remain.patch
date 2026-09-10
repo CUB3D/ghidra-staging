@@ -23,7 +23,7 @@ index 0cd8eaa888..87e6049a5f 100644
  	actprop->addRule( new RuleSignMod2nOpt2("analysis") );
  	actprop->addRule( new RuleSignMod2Opt("analysis") );
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
-index e1893222f5..7886beb0ff 100644
+index 0cb5ba16a9..247a5c4271 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/ruleaction.hh
 @@ -1432,6 +1432,17 @@ public:
@@ -45,7 +45,7 @@ index e1893222f5..7886beb0ff 100644
  public:
    RuleSignMod2nOpt(const string &g) : Rule( g, 0, "signmod2nopt") {}	///< Constructor
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index eb845a74fb..5e27d6514c 100644
+index 1ce2211e29..a188ceec02 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -9995,7 +9995,7 @@ int4 RuleSignNearMult::applyOp(PcodeOp *op,Funcdata &data)

@@ -9,7 +9,7 @@ Subject: [PATCH] 8967: Decompiler: Support ZEXT when resolving pointer
  1 file changed, 2 insertions(+)
 
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 31030db421..e82e828ee8 100644
+index 9d5a4fcfd3..3cbb54e305 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -6228,6 +6228,8 @@ bool AddTreeState::checkTerm(Varnode *vn,uint8 treeCoeff)

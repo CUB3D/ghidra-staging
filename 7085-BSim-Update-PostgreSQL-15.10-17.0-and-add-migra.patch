@@ -39,19 +39,19 @@ index 15bd8ff811..c7e1b36b35 100755
  dependencies {
  	api project(":Decompiler")
 diff --git a/Ghidra/Features/BSim/src/main/help/help/topics/BSim/CommandLineReference.html b/Ghidra/Features/BSim/src/main/help/help/topics/BSim/CommandLineReference.html
-index af335bbe52..62bc19ac52 100644
+index 08f3f5423c..854d6fbaf3 100644
 --- a/Ghidra/Features/BSim/src/main/help/help/topics/BSim/CommandLineReference.html
 +++ b/Ghidra/Features/BSim/src/main/help/help/topics/BSim/CommandLineReference.html
-@@ -47,6 +47,8 @@
-     bsim_ctl resetpassword   &lt;username&gt;
-     bsim_ctl changeauth      &lt;/datadir-path&gt; [--auth|-a&nbsp;pki|password|trust] [--noLocalAuth] [--cafile&nbsp;&lt;/cacert-path&gt;] [--dn&nbsp;"&lt;distinguished-name&gt;"]
-     bsim_ctl changeprivilege &lt;username&gt; admin|user
+@@ -54,6 +54,8 @@
+     bsim_ctl listusers         &lt;/datadir-path&gt;
+     bsim_ctl resetpassword     &lt;username&gt; [--port|-p&nbsp;&lt;portnum&gt;]
+     bsim_ctl changeprivilege   &lt;username&gt; admin|user [--port|-p&nbsp;&lt;portnum&gt;]
 +    bsim_ctl dumpall         &lt;/dumpfile-path&gt;
 +    bsim_ctl restore         &lt;/dumpfile-path&gt;
-     
-     Global Options:
-         --port|-p&nbsp;&lt;portnum&gt;
-@@ -223,6 +225,22 @@
+ 
+     Global options:
+         --user|-u&nbsp;&lt;username&gt;
+@@ -478,6 +480,22 @@
                  running.</P>
                </DD>
  
@@ -75,21 +75,21 @@ index af335bbe52..62bc19ac52 100644
                Options--</STRONG></SPAN></SPAN></DT>
  
 diff --git a/Ghidra/Features/BSim/src/main/help/help/topics/BSim/DatabaseConfiguration.html b/Ghidra/Features/BSim/src/main/help/help/topics/BSim/DatabaseConfiguration.html
-index d4c36bdb38..bbd8f432fa 100644
+index 38055031cc..40ffa2e052 100644
 --- a/Ghidra/Features/BSim/src/main/help/help/topics/BSim/DatabaseConfiguration.html
 +++ b/Ghidra/Features/BSim/src/main/help/help/topics/BSim/DatabaseConfiguration.html
 @@ -107,13 +107,13 @@
                in the module directory <CODE>Ghidra/Features/BSim/support</CODE> that builds both the PostgreSQL
                server and the BSim extension from source and prepares the installation for use with
                Ghidra.  If not already included in the Ghidra installation, the source distribution
--              file, currently <CODE>postgresql-15.13.tar.gz</CODE>, can be obtained from the PostgreSQL
+-              file, currently <CODE>postgresql-15.18.tar.gz</CODE>, can be obtained from the PostgreSQL
 +              file, currently <CODE>postgresql-17.0.tar.gz</CODE>, can be obtained from the PostgreSQL
                website at </P>
  	    
              <DIV class="informalexample">
                <TABLE border="0" summary="Simple list" class="simplelist">
                  <TR>
--                  <TD><CODE class="computeroutput">https://www.postgresql.org/ftp/source/v15.13
+-                  <TD><CODE class="computeroutput">https://www.postgresql.org/ftp/source/v15.18
 +                  <TD><CODE class="computeroutput">https://www.postgresql.org/ftp/source/v17.0
  		  </CODE></TD>
                  </TR>
@@ -98,63 +98,63 @@ index d4c36bdb38..bbd8f432fa 100644
  	    <P>The steps to build the PostgreSQL server with the BSim extension then are:</P>
  
  	    <P>1) If not already present, place the PostgreSQL source distribution file
--	      <CODE>postgresql-15.13.tar.gz</CODE> in the Ghidra installation at</P>
+-	      <CODE>postgresql-15.18.tar.gz</CODE> in the Ghidra installation at</P>
 +	      <CODE>postgresql-17.0.tar.gz</CODE> in the Ghidra installation at</P>
  
              <DIV class="informalexample">
                <TABLE border="0" summary="Simple list" class="simplelist">
                  <TR>
--                  <TD><CODE class="computeroutput">$(ROOT)/Ghidra/Features/BSim/support/postgresql-15.13.tar.gz
+-                  <TD><CODE class="computeroutput">$(ROOT)/Ghidra/Features/BSim/support/postgresql-15.18.tar.gz
 +                  <TD><CODE class="computeroutput">$(ROOT)/Ghidra/Features/BSim/support/postgresql-17.0.tar.gz
  		  </CODE></TD>
                  </TR>
                </TABLE>
 diff --git a/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/BSimControlLaunchable.java b/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/BSimControlLaunchable.java
-index ac1d53e3b9..68c4cf30fb 100644
+index a6cd65366a..4f9a17c69b 100644
 --- a/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/BSimControlLaunchable.java
 +++ b/Ghidra/Features/BSim/src/main/java/ghidra/features/bsim/query/BSimControlLaunchable.java
-@@ -59,6 +59,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 	public final static String COMMAND_ADDUSER = "adduser";
- 	public final static String COMMAND_DROPUSER = "dropuser";
- 	public final static String COMMAND_CHANGEAUTH = "changeauth";
+@@ -66,6 +66,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 	public final static String COMMAND_RESTART = "restart";
+ 	public final static String COMMAND_INSTALL_SERVICE = "install-service";
+ 	public final static String COMMAND_UNINSTALL_SERVICE = "uninstall-service";
 +	public final static String COMMAND_DUMPALL = "dumpall";
 +	public final static String COMMAND_RESTORE = "restore";
  
  	// Options that require a value argument
  	public static final String CAFILE_OPTION = "--cafile";
-@@ -101,6 +103,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+@@ -124,6 +126,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 	private static final Set<String> ADDUSER_OPTIONS = Set.of(DN_OPTION);
  	private static final Set<String> DROPUSER_OPTIONS = Set.of();
- 	private static final Set<String> CHANGEAUTH_OPTIONS = Set.of(
- 		AUTH_OPTION, DN_OPTION, NO_LOCAL_AUTH_OPTION, CAFILE_OPTION);
+ 	private static final Set<String> LISTUSERS_OPTIONS = Set.of();
 +	private static final Set<String> DUMPALL_OPTIONS = Set.of();
 +	private static final Set<String> RESTORE_OPTIONS = Set.of();
  
  	//@formatter:on
  	private static final Map<String, Set<String>> ALLOWED_OPTION_MAP = new HashMap<>();
-@@ -113,6 +117,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+@@ -141,6 +145,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
  		ALLOWED_OPTION_MAP.put(COMMAND_ADDUSER, ADDUSER_OPTIONS);
  		ALLOWED_OPTION_MAP.put(COMMAND_DROPUSER, DROPUSER_OPTIONS);
- 		ALLOWED_OPTION_MAP.put(COMMAND_CHANGEAUTH, CHANGEAUTH_OPTIONS);
+ 		ALLOWED_OPTION_MAP.put(COMMAND_LISTUSERS, LISTUSERS_OPTIONS);
 +		ALLOWED_OPTION_MAP.put(COMMAND_DUMPALL, DUMPALL_OPTIONS);
 +		ALLOWED_OPTION_MAP.put(COMMAND_RESTORE, RESTORE_OPTIONS);
  	}
  
  	private final static String POSTGRES = "postgresql";
-@@ -136,8 +142,11 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 	private GhidraApplicationLayout layout;
+@@ -195,8 +201,11 @@ public class BSimControlLaunchable implements GhidraLaunchable {
  
+ 	private boolean verbose;			// If enable, output command execution details to console
  	private File dataDirectory;			// Directory containing postgres datafiles
 +	private File dumpFile;				// Path to database dump file
  	private File postgresRoot;			// Directory containing postgres software
  	private File postgresControl;		// "pg_ctl" utility within postgres software
 +	private File postgresDumpAll;		// "pg_dumpall" utility within postgres software
 +	private File postgresPsql;			// "psql" utility within postgres software
- 	private File certAuthorityFile;		// Certificate authority file provided by the user
- 	private String certParameter;		// Path to certificate provided by user
- 	private String distinguishedName;	// Certificate distinguished name provided by the user
-@@ -167,8 +176,11 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 
+ 	private File certAuthorityFile;		// Certificate authority file provided by the user (--cafile)
+ 	private File activeCertAuthorityFile;	// CA file loaded/validated (--cafile or installed root.crt)
+ 	private List<X509Certificate> certAuthorities;	// Validated CAs from activeCertAuthorityFile
+@@ -243,8 +252,11 @@ public class BSimControlLaunchable implements GhidraLaunchable {
  	private void clearParams() {
+ 		verbose = false;
  		dataDirectory = null;
 +		dumpFile = null;
  		postgresRoot = null;
@@ -162,12 +162,12 @@ index ac1d53e3b9..68c4cf30fb 100644
 +		postgresDumpAll = null;
 +		postgresPsql = null;
  		certAuthorityFile = null;
- 		certParameter = null;
- 		distinguishedName = null;
-@@ -222,6 +234,12 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 			case COMMAND_CHANGEAUTH:
- 				scanDataDirectory(params, slot++);
+ 		activeCertAuthorityFile = null;
+ 		certAuthorities = null;
+@@ -317,6 +329,12 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 				scanUsername(params, slot++);
  				break;
+ 				
 +			case COMMAND_DUMPALL:
 +				scanDumpFile(params, slot++);
 +				break;
@@ -177,7 +177,7 @@ index ac1d53e3b9..68c4cf30fb 100644
  			case COMMAND_CHANGE_PRIVILEGE:
  				scanUsername(params, slot++);
  				scanPrivilege(params, slot++);
-@@ -783,6 +801,14 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+@@ -1093,6 +1111,14 @@ public class BSimControlLaunchable implements GhidraLaunchable {
  			if (!postgresControl.isFile()) {
  				throw new IOException("PostgreSQL pg_ctl command not found: " + postgresControl);
  			}
@@ -192,7 +192,7 @@ index ac1d53e3b9..68c4cf30fb 100644
  			setupPostgresSharedLibrary();
  		}
  		catch (OSFileNotFoundException e) {
-@@ -990,6 +1016,19 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+@@ -2286,6 +2312,19 @@ public class BSimControlLaunchable implements GhidraLaunchable {
  		}
  	}
  
@@ -210,10 +210,10 @@ index ac1d53e3b9..68c4cf30fb 100644
 +	}
 +
  	/**
- 	 * Start a PostgreSQL server, configured for BSim, on the local host.
- 	 * If the data directory is already populated, the server process is simply restarted.
-@@ -1043,6 +1082,80 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 		}
+ 	 * Initialize a new PostgreSQL data directory configured for BSim, then briefly start the
+ 	 * server to enable the BSim (lshvector) extension before leaving it stopped.  The data
+@@ -2424,6 +2463,80 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 		System.out.println("Server restarted");
  	}
  
 +	/**
@@ -293,9 +293,9 @@ index ac1d53e3b9..68c4cf30fb 100644
  	/**
  	 * Stop the running PostgreSQL processes on the local host. No authentication is required to shutdown
  	 * the server.  User must be the process owner.
-@@ -1441,6 +1554,12 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 				case COMMAND_CHANGEAUTH:
- 					changeAuthCommand();
+@@ -3141,6 +3254,12 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 				case COMMAND_CONFIGURE:
+ 					configureCommand();
  					break;
 +				case COMMAND_DUMPALL:
 +					dumpAllCommand();
@@ -306,17 +306,17 @@ index ac1d53e3b9..68c4cf30fb 100644
  				case COMMAND_RESET_PASSWORD:
  					passwordCommand();
  					break;
-@@ -1473,6 +1592,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
- 			"                changeauth </datadir-path> [--auth|-a pki|password|trust] [--noLocalAuth] [--cafile \"</cacert-path>\"] [--dn \"<distinguished-name>\"]\n" +
- 			"                resetpassword   <username>\n" +
- 			"                changeprivilege <username> admin|user\n" + 
+@@ -3180,6 +3299,8 @@ public class BSimControlLaunchable implements GhidraLaunchable {
+ 			"                listusers  </datadir-path>\n" +
+ 			"                resetpassword   <username> [--port|-p <portnum>]\n" +
+ 			"                changeprivilege <username> admin|user [--port|-p <portnum>]\n" +
 +			"                dumpall    </dumpfile-path>\n" +
 +			"                restore    </dumpfile-path>\n" +
- 			"\n" + 
- 			"Global options:\n" +
- 			"   --port|-p <portnum>\n" + 
+ 			"\n" +
+ 			"   Global options:\n" +
+ 			"      --user|-u <username>\n" +
 diff --git a/Ghidra/Features/BSim/support/make-postgres.sh b/Ghidra/Features/BSim/support/make-postgres.sh
-index d20c35dd6d..2e81a9df7d 100755
+index 6a2646a2fb..aed563d233 100755
 --- a/Ghidra/Features/BSim/support/make-postgres.sh
 +++ b/Ghidra/Features/BSim/support/make-postgres.sh
 @@ -18,11 +18,11 @@
