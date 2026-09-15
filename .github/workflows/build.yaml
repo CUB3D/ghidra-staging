@@ -21,6 +21,12 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
       -
+        name: "Setup JDK"
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "temurin"
+      -
         name: "Clone ghidra"
         run: git clone https://github.com/nationalsecurityagency/ghidra 
       -
@@ -58,12 +64,6 @@ jobs:
 
              patch -p1 < "$f" || true
            done
-      -
-        name: "Setup JDK"
-        uses: actions/setup-java@v5
-        with:
-          java-version: "25"
-          distribution: "temurin"
       -
         name: "Build ghidra"
         run: cd ghidra && ./gradlew -x ip buildGhidra
