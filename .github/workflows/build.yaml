@@ -25,7 +25,7 @@ jobs:
         run: git clone https://github.com/nationalsecurityagency/ghidra 
       -
         name: "Pull deps"
-        run: cd ghidra && gradle -I gradle/support/fetchDependencies.gradle
+        run: cd ghidra && ./gradlew -I gradle/support/fetchDependencies.gradle
       -
         name: "Apply patches"
         continue-on-error: true
@@ -66,7 +66,7 @@ jobs:
           distribution: "temurin"
       -
         name: "Build ghidra"
-        run: cd ghidra && gradle -x ip buildGhidra
+        run: cd ghidra && ./gradlew -x ip buildGhidra
       -
         name: "Remove zips"
         continue-on-error: true
