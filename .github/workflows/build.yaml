@@ -35,26 +35,39 @@ jobs:
       -
         name: "Apply patches"
         continue-on-error: true
-        # - Patches removed due to build failures: 7409, 7930, 6606, 8957
-        # - AI slop: 5333
+        # - Patches that don't merge as of writing: 3903, 9556, 9127, 7308, 9522
+        # - Patches removed due to build failures: 3331, 2727
         # - Breaks the decompiler reliably: 7502
         run: |
            cd ghidra
            for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
-             if [ "$(basename "$f")" = "7409-Update-GUIDs.patch" ]; then
+             echo "APPLYING: $f"
+             if [ "$(basename "$f")" = "3903-adds-getOriginalBytes-function-to-flat-API.patch" ]; then
                continue
              fi
-             if [ "$(basename "$f")" = "7930-Add-support-for-NEC-uPD78-microcontrollers.patch" ]; then
+             if [ "$(basename "$f")" = "9556-Add-data-type-conflict-resolution-option-to-Ver.patch" ]; then
                continue
              fi
-             if [ "$(basename "$f")" = "6606-AArch32-vmov-had-incorrect-vmask-missing-positi.patch" ]; then
+             if [ "$(basename "$f")" = "9127-fix-stabilize-recursive-typedef-resolution-in-c.patch" ]; then
                continue
              fi
-             if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
+             if [ "$(basename "$f")" = "4103-WebAssembly-support.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "3331-Updates-to-assist-with-REing-16-bit-Windows-app.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "7308-PCode-Add-edge-label-information-to-XML-encodin.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "9522-9450-Add-cspec-driven-mechanism-for-fusing-spli.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "2727-Proper-C-Parser-GhidraClangPoweredParse.patch" ]; then
                continue
              fi
 
-             if [ "$(basename "$f")" = "5333-Add-GhidraChatGPT.patch" ]; then
+             if [ "$(basename "$f")" = "9574-Refuse-comments-at-unbacked-addressess.patch" ]; then
                continue
              fi
 
@@ -62,11 +75,11 @@ jobs:
                continue
              fi
 
-             patch -p1 < "$f" || true
+             patch -p1 --merge --no-backup-if-mismatch < "$f" || true
            done
       -
         name: "Build ghidra"
-        run: cd ghidra && ./gradlew -x ip buildGhidra
+        run: cd ghidra && ./gradlew buildGhidra
       -
         name: "Remove zips"
         continue-on-error: true
