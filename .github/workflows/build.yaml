@@ -38,6 +38,7 @@ jobs:
         # - Patches that don't merge as of writing: 3903, 9556, 9127, 7308, 9522
         # - Patches removed due to build failures: 3331, 2727
         # - Breaks the decompiler reliably: 7502
+        # - This can work with git apply but not patch: 8957
         run: |
            cd ghidra
            for f in /home/runner/work/ghidra-staging/ghidra-staging/*.patch; do
@@ -64,6 +65,9 @@ jobs:
                continue
              fi
              if [ "$(basename "$f")" = "2727-Proper-C-Parser-GhidraClangPoweredParse.patch" ]; then
+               continue
+             fi
+             if [ "$(basename "$f")" = "8957-proof-of-concept-reorganize-windows-spaces-by-t.patch" ]; then
                continue
              fi
 
