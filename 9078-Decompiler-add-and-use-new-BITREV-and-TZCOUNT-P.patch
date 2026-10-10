@@ -106,10 +106,10 @@ index aefdd8e0f9..b486449b9c 100644
  /// \param val is the given value
  /// \return the mask
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
-index fda83b3482..0cbcd0b851 100644
+index c0c4d408e7..ec6b6c33b0 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
-@@ -3952,6 +3952,7 @@ void ActionDeadCode::propagateConsumed(vector<Varnode *> &worklist)
+@@ -3958,6 +3958,7 @@ void ActionDeadCode::propagateConsumed(vector<Varnode *> &worklist)
      }
      break;
    case CPUI_COPY:
@@ -117,7 +117,7 @@ index fda83b3482..0cbcd0b851 100644
    case CPUI_INT_NEGATE:
      pushConsumed(outc,op->getIn(0),worklist);
      break;
-@@ -4069,6 +4070,7 @@ void ActionDeadCode::propagateConsumed(vector<Varnode *> &worklist)
+@@ -4075,6 +4076,7 @@ void ActionDeadCode::propagateConsumed(vector<Varnode *> &worklist)
      break;
    case CPUI_POPCOUNT:
    case CPUI_LZCOUNT:
@@ -125,7 +125,7 @@ index fda83b3482..0cbcd0b851 100644
      a = 16 * op->getIn(0)->getSize() - 1;	// Mask for possible bits that could be set
      a &= outc;					// Of the bits that could be set, which are consumed
      b = (a == 0) ? 0 : ~((uintb)0);		// if any consumed, treat all input bits as consumed
-@@ -6090,6 +6092,7 @@ void ActionDatabase::universalAction(Architecture *conf)
+@@ -6096,6 +6098,7 @@ void ActionDatabase::universalAction(Architecture *conf)
  	actprop->addRule( new RuleXorSwap("analysis") );
  	actprop->addRule( new RuleLzcountShiftBool("analysis") );
  	actprop->addRule( new RuleLzcntZeroTest("analysis") );
@@ -200,10 +200,10 @@ index ba5812135e..56ed76a0c9 100644
  
  extern const char *get_opname(OpCode opc);		///< Convert an OpCode to the name as a string
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/printc.hh b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/printc.hh
-index e4a05edb44..d9daae73bf 100644
+index 60f327a24f..0df9126b57 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/printc.hh
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/include/ghidra/printc.hh
-@@ -353,6 +353,8 @@ public:
+@@ -354,6 +354,8 @@ public:
    virtual void opPopcountOp(const PcodeOp *op) { opFunc(op); }
    virtual void opLzcountOp(const PcodeOp *op) { opFunc(op); }
    virtual string getScopeDelimiter(void) const { return scope.print1; }
@@ -416,7 +416,7 @@ index 653ac1ee46..23b0b4bff1 100644
  } // End namespace ghidra
  #endif
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/op.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/op.cc
-index f6609497de..b3709d6892 100644
+index 7ee6b3d0e6..c6304cb91e 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/op.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/op.cc
 @@ -599,6 +599,7 @@ uintb PcodeOp::getNZMaskLocal(bool cliploop) const
@@ -467,10 +467,10 @@ index edb2a435d3..d2a24c023e 100644
 +
  } // End namespace ghidra
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 70ace50509..bb8bd266b3 100644
+index 568f105afc..a9741d1456 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-@@ -12263,6 +12263,26 @@ int4 RuleLzcntZeroTest::applyOp(PcodeOp *op,Funcdata &data)
+@@ -12264,6 +12264,26 @@ int4 RuleLzcntZeroTest::applyOp(PcodeOp *op,Funcdata &data)
      return 1;
  }
  

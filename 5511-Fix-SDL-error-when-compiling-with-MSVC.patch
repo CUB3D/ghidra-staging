@@ -29,10 +29,10 @@ index 4a23dcc969..da332db29a 100644
      trial = tails[prefindex];
      int4 sizeout = trial->sizeOut();
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
-index aa15eda4d1..fbb448219a 100644
+index 98580069c9..34dd3349e3 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/coreaction.cc
-@@ -828,7 +828,7 @@ bool ActionMultiCse::processBlock(Funcdata &data,BlockBasic *bl)
+@@ -834,7 +834,7 @@ bool ActionMultiCse::processBlock(Funcdata &data,BlockBasic *bl)
  {
    vector<Varnode *> vnlist;
    PcodeOp *targetop = (PcodeOp *)0;
@@ -81,7 +81,7 @@ index 7ddc59e625..4aed2d488e 100644
    mostvn = (Varnode *)0;
    op = vn->getDef();
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/printc.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/printc.cc
-index 016fc0dd9a..45d2a53f4d 100644
+index 43df03d72f..d64e9c4b2c 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/printc.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/printc.cc
 @@ -1907,7 +1907,7 @@ bool PrintC::pushEquate(uintb val,int4 sz,const EquateSymbol *sym,const Varnode
@@ -93,7 +93,7 @@ index 016fc0dd9a..45d2a53f4d 100644
    if (modval == val) {		// twos complement
      pushOp(&unary_minus,(const PcodeOp *)0);
      pushSymbol(sym,vn,op);
-@@ -2161,7 +2161,7 @@ void PrintC::pushImpliedField(const Varnode *vn,const PcodeOp *op)
+@@ -2173,7 +2173,7 @@ void PrintC::pushImpliedField(const Varnode *vn,const PcodeOp *op)
  {
    bool proceed = false;
    Datatype *parent = vn->getHigh()->getType();
@@ -103,7 +103,7 @@ index 016fc0dd9a..45d2a53f4d 100644
      const Funcdata *fd = op->getParent()->getFuncdata();
      int4 slot = op->getSlot(vn);
 diff --git a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
-index 1c62dbc264..a3ae81ab5a 100644
+index c1f424c7ac..10d13f7aa9 100644
 --- a/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 +++ b/Ghidra/Features/Decompiler/src/decompile/cpp/ruleaction.cc
 @@ -3987,7 +3987,7 @@ int4 RuleCarryElim::applyOp(PcodeOp *op,Funcdata &data)
@@ -124,7 +124,7 @@ index 1c62dbc264..a3ae81ab5a 100644
    }
    else if (opc == CPUI_INT_NEGATE) {
      newconst = cvn->getOffset();
-@@ -8541,7 +8541,7 @@ int4 RuleSignForm2::applyOp(PcodeOp *op,Funcdata &data)
+@@ -8542,7 +8542,7 @@ int4 RuleSignForm2::applyOp(PcodeOp *op,Funcdata &data)
    PcodeOp *multOp = multOut->getDef();
    if (multOp->code() != CPUI_INT_MULT) return 0;
    int4 slot;
@@ -133,7 +133,7 @@ index 1c62dbc264..a3ae81ab5a 100644
    for(slot=0;slot<2;++slot) {			// Search for the INT_SEXT
      Varnode *vn = multOp->getIn(slot);
      if (!vn->isWritten()) continue;
-@@ -8833,7 +8833,7 @@ int4 RuleSignMod2Opt::applyOp(PcodeOp *op,Funcdata &data)
+@@ -8834,7 +8834,7 @@ int4 RuleSignMod2Opt::applyOp(PcodeOp *op,Funcdata &data)
    PcodeOp *addOp = addOut->getDef();
    if (addOp->code() != CPUI_INT_ADD) return 0;
    int4 multSlot;
@@ -142,7 +142,7 @@ index 1c62dbc264..a3ae81ab5a 100644
    bool trunc = false;
    for(multSlot = 0;multSlot < 2;++multSlot) {
      Varnode *vn = addOp->getIn(multSlot);
-@@ -8982,7 +8982,7 @@ Varnode *RuleSignMod2nOpt2::checkMultiequalForm(PcodeOp *op,uintb npow)
+@@ -8983,7 +8983,7 @@ Varnode *RuleSignMod2nOpt2::checkMultiequalForm(PcodeOp *op,uintb npow)
    if (op->numInput() != 2) return (Varnode *)0;
    npow -= 1;		// 2^n - 1
    int4 slot;
